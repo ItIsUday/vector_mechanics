@@ -14,11 +14,9 @@ class Vector:
         return f'Vector: <mag = {self.mag}, inclination = {degrees(self.inclination)}>'
 
     def __add__(self, other):
-        h_comp_sum = self.horizontal_component().mag + other.horizontal_component().mag
-        v_comp_sum = self.vertical_component().mag + other.vertical_component().mag
-
-        res_mag = sqrt(h_comp_sum ** 2 + v_comp_sum ** 2)
-        res_inclination = degrees(atan(v_comp_sum / h_comp_sum))
+        angle = abs(self.inclination - other.inclination)
+        res_mag = sqrt(self.mag ** 2 + other.mag ** 2 + 2 * self.mag * other.mag * cos(angle))
+        res_inclination = degrees(atan(other.mag * sin(angle) / (self.mag + other.mag * cos(angle))) + self.inclination)
 
         return Vector(res_mag, res_inclination)
 
@@ -27,8 +25,8 @@ class Vector:
             return self + other
         return self
 
-    def horizontal_component(self):
-        return Vector(self.mag * cos(self.inclination), 0)
+    def h_mag(self):
+        return self.mag * cos(self.inclination)
 
-    def vertical_component(self):
-        return Vector(self.mag * sin(self.inclination), 90)
+    def v_mag(self):
+        return self.mag * sin(self.inclination)

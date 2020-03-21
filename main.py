@@ -5,3 +5,7 @@ if __name__ == '__main__':
 
     resultant_vector = sum(all_vectors)
     print(resultant_vector)
+    print(resultant_vector.moment())
+    print(resultant_vector.y_intercept())
+    print(resultant_vector.x_intercept())
+   

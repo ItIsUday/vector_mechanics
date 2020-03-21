@@ -3,7 +3,8 @@ from math import *
 
 def rounded(func):
     def wrapper(*args, **kwargs):
-        return round(func(*args, **kwargs))
+        ans = func(*args, **kwargs)
+        return round(ans, 3) if ans < 10 ** 7 else float('inf')
 
     return wrapper
 
@@ -30,11 +31,10 @@ class Vector:
 
         res_mag = sqrt(h_mag_sum ** 2 + v_mag_sum ** 2)
         res_inclination = degrees(atan(v_mag_sum / h_mag_sum))
-
         moment = self.moment() + other.moment()
-        res_h_dist = - moment / v_mag_sum
+        res_h_dist, res_v_dist = self.__get_dist(h_mag_sum, moment, v_mag_sum)
 
-        return Vector(res_mag, res_inclination, res_h_dist, 0)
+        return Vector(res_mag, res_inclination, res_h_dist, res_v_dist)
 
     def __radd__(self, other):
         if isinstance(other, Vector):
@@ -47,11 +47,23 @@ class Vector:
     def v_mag(self):
         return self.mag * sin(self.inclination)
 
+    @rounded
     def x_intercept(self):
         return -self.moment() / self.v_mag()
 
+    @rounded
     def y_intercept(self):
         return self.moment() / self.h_mag()
 
+    @rounded
     def moment(self):
         return self.h_mag() * self.v_dist - self.v_mag() * self.h_dist
+
+    @staticmethod
+    def __get_dist(h_mag_sum, moment, v_mag_sum):
+        if round(v_mag_sum, 3):
+            return -moment / v_mag_sum, 0
+        elif round(h_mag_sum, 3):
+            return 0, moment / h_mag_sum
+        else:
+            return 0, 0

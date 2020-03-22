@@ -18,12 +18,10 @@ class Vector:
         self.v_dist = v_dist
 
     def __str__(self):
-        return f'Vector: <mag = {round(self.mag, 3)}, inclination = {round(degrees(self.inclination), 3)}, ' \
-               f'h_dist = {round(self.h_dist, 3)}, v_dist = {round(self.v_dist, 3)}>'
+        return f'Vector: <mag = {round(self.mag, 3)}, inclination = {round(degrees(self.inclination), 3)}>'
 
     def __repr__(self):
-        return f'Vector: <mag = {round(self.mag, 3)}, inclination = {round(degrees(self.inclination), 3)}, ' \
-               f'h_dist = {round(self.h_dist, 3)}, v_dist = {round(self.v_dist, 3)}>'
+        return f'Vector: <mag = {round(self.mag, 3)}, inclination = {round(degrees(self.inclination), 3)}>'
 
     def __add__(self, other):
         h_mag_sum = self.h_mag() + other.h_mag()
